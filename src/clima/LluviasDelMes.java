@@ -14,4 +14,20 @@ public class LluviasDelMes {
 	public LluviasDelMes() {
 		llovio = new boolean[31];
 	}
+
+	/**
+	 * @pre 'dia' está en el rango [1-31] .
+	 * @post registra que el día del mes llovió.
+	 * @param dia : número del día del mes.
+	 */
+	public void agregar(int dia) {
+		validar(dia);
+		llovio[dia - 1] = true;
+	}
+
+	private void validar(int dia) {
+		if ((dia < 1) || (dia > 31)) {
+			throw new IllegalArgumentException("No es un día del mes: " + dia);
+		}
+	}
 }
