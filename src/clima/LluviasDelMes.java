@@ -52,6 +52,17 @@ public class LluviasDelMes {
 		return diasLluviosos;
 	}
 
+	/**
+	 * @post agrega los días lluviosos de 'otro'.
+	 * @param otro
+	 */
+	public void agregar(LluviasDelMes otro) {
+		
+		for (int i = 0; i < llovio.length; i++) {
+			llovio[i] = (llovio[i] || otro.llovio[i]);
+		}
+	}
+
 	private void validar(int dia) {
 		if ((dia < 1) || (dia > 31)) {
 			throw new IllegalArgumentException("No es un día del mes: " + dia);
