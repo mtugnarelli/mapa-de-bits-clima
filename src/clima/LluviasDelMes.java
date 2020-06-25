@@ -6,13 +6,13 @@ package clima;
  */
 public class LluviasDelMes {
 
-	private boolean[] llovio;
+	private int llovio;
 	
 	/**
 	 * @post registro del mes sin ningún día lluvioso.
 	 */
 	public LluviasDelMes() {
-		llovio = new boolean[31];
+		llovio = 0;
 	}
 
 	/**
@@ -21,8 +21,11 @@ public class LluviasDelMes {
 	 * @param dia : número del día del mes.
 	 */
 	public void agregar(int dia) {
+		
 		validar(dia);
-		llovio[dia - 1] = true;
+		
+		int bit = (1 << (dia - 1));
+		llovio = (llovio | bit);
 	}
 	
 	/**
@@ -33,7 +36,9 @@ public class LluviasDelMes {
 	public boolean contiene(int dia) {
 		
 		validar(dia);
-		return llovio[dia - 1];
+		
+		int bit = (1 << (dia - 1));
+		return ((llovio & bit) != 0);
 	}
 
 	/**
@@ -41,15 +46,16 @@ public class LluviasDelMes {
 	 */
 	public int contar() {
 
-		int diasLluviosos = 0;
+		return contar(llovio);
+	}
+	
+	private int contar(int bits) {
 		
-		for (int i = 0; i < llovio.length; i++) {
-			if (llovio[i]) {
-				diasLluviosos++;
-			}
-		}
-		
-		return diasLluviosos;
+		int cuenta = 0;
+		if (bits != 0) {
+			cuenta = (bits & 1) + contar(bits >> 1);
+		} 
+		return cuenta;
 	}
 
 	/**
@@ -58,9 +64,7 @@ public class LluviasDelMes {
 	 */
 	public void agregar(LluviasDelMes otro) {
 		
-		for (int i = 0; i < llovio.length; i++) {
-			llovio[i] = (llovio[i] || otro.llovio[i]);
-		}
+		llovio = (llovio | otro.llovio);
 	}
 
 	/**
@@ -69,9 +73,7 @@ public class LluviasDelMes {
 	 */
 	public void retener(LluviasDelMes otro) {
 		
-		for (int i = 0; i < llovio.length; i++) {
-			llovio[i] = (llovio[i] && otro.llovio[i]);
-		}
+		llovio = (llovio & otro.llovio);
 	}
 	
 	/**
@@ -80,9 +82,9 @@ public class LluviasDelMes {
 	 */
 	public void remover(LluviasDelMes otro) {
 		
-		for (int i = 0; i < llovio.length; i++) {
-			llovio[i] = (llovio[i] && !otro.llovio[i]);
-		}
+		int noLlovioEnOtro = otro.llovio ^ 0b11111111_11111111_11111111_11111111;
+
+		llovio = (llovio & noLlovioEnOtro);
 	}
 
 	private void validar(int dia) {
