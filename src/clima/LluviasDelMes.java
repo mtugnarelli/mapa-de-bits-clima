@@ -63,6 +63,17 @@ public class LluviasDelMes {
 		}
 	}
 
+	/**
+	 * @post deja solo aquellos días lluviosos que también están en 'otro'.
+	 * @param otro
+	 */
+	public void retener(LluviasDelMes otro) {
+		
+		for (int i = 0; i < llovio.length; i++) {
+			llovio[i] = (llovio[i] && otro.llovio[i]);
+		}
+	}
+	
 	private void validar(int dia) {
 		if ((dia < 1) || (dia > 31)) {
 			throw new IllegalArgumentException("No es un día del mes: " + dia);
