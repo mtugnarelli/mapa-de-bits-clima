@@ -36,6 +36,22 @@ public class LluviasDelMes {
 		return llovio[dia - 1];
 	}
 
+	/**
+	 * @return cantidad de días que llovieron el mes.
+	 */
+	public int contar() {
+
+		int diasLluviosos = 0;
+		
+		for (int i = 0; i < llovio.length; i++) {
+			if (llovio[i]) {
+				diasLluviosos++;
+			}
+		}
+		
+		return diasLluviosos;
+	}
+
 	private void validar(int dia) {
 		if ((dia < 1) || (dia > 31)) {
 			throw new IllegalArgumentException("No es un día del mes: " + dia);
